@@ -1,5 +1,14 @@
 // src/config/menuItems.tsx
-import { Home, Settings, Users, Shield } from "lucide-react";
+import {
+	Activity,
+	BarChart3,
+	CreditCard,
+	FileText,
+	Home,
+	Settings,
+	Upload,
+	Users,
+} from "lucide-react";
 import { RoleType } from "./roles";
 
 export interface MenuItemConfig {
@@ -11,15 +20,45 @@ export interface MenuItemConfig {
 
 export const menuItems: MenuItemConfig[] = [
 	{
-		key: "/",
+		key: "/dashboard",
 		label: "Dashboard",
 		icon: <Home size={18} />,
 		privilege: "STUDENT",
 	},
 	{
-		key: "/users",
-		label: "Users",
+		key: "/students",
+		label: "Students",
 		icon: <Users size={18} />,
+		privilege: "COLLEGE",
+	},
+	{
+		key: "/applications",
+		label: "Applications",
+		icon: <FileText size={18} />,
+		privilege: "STUDENT",
+	},
+	{
+		key: "/documents",
+		label: "Documents",
+		icon: <Upload size={18} />,
+		privilege: "STUDENT",
+	},
+	{
+		key: "/payments",
+		label: "Payments",
+		icon: <CreditCard size={18} />,
+		privilege: "COLLEGE",
+	},
+	{
+		key: "/reports",
+		label: "Reports",
+		icon: <BarChart3 size={18} />,
+		privilege: "COLLEGE",
+	},
+	{
+		key: "/activity-logs",
+		label: "Activity Logs",
+		icon: <Activity size={18} />,
 		privilege: "ADMIN",
 	},
 	{
@@ -28,10 +67,5 @@ export const menuItems: MenuItemConfig[] = [
 		icon: <Settings size={18} />,
 		privilege: "STUDENT",
 	},
-	{
-		key: "/security",
-		label: "Security",
-		icon: <Shield size={18} />,
-		privilege: "AGENT",
-	},
 ];
+

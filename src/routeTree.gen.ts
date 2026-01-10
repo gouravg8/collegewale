@@ -10,6 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as StudentsIndexRouteImport } from './routes/students/index'
+import { Route as SettingsIndexRouteImport } from './routes/settings/index'
+import { Route as ReportsIndexRouteImport } from './routes/reports/index'
+import { Route as PaymentsIndexRouteImport } from './routes/payments/index'
+import { Route as DocumentsIndexRouteImport } from './routes/documents/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as ApplicationsIndexRouteImport } from './routes/applications/index'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
 import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
@@ -21,6 +28,41 @@ import { Route as DemoStartSsrDataOnlyRouteImport } from './routes/demo/start.ss
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentsIndexRoute = StudentsIndexRouteImport.update({
+  id: '/students/',
+  path: '/students/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsIndexRoute = ReportsIndexRouteImport.update({
+  id: '/reports/',
+  path: '/reports/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentsIndexRoute = PaymentsIndexRouteImport.update({
+  id: '/payments/',
+  path: '/payments/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocumentsIndexRoute = DocumentsIndexRouteImport.update({
+  id: '/documents/',
+  path: '/documents/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApplicationsIndexRoute = ApplicationsIndexRouteImport.update({
+  id: '/applications/',
+  path: '/applications/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoStartServerFuncsRoute = DemoStartServerFuncsRouteImport.update({
@@ -61,6 +103,13 @@ const DemoStartSsrDataOnlyRoute = DemoStartSsrDataOnlyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/applications': typeof ApplicationsIndexRoute
+  '/dashboard': typeof DashboardIndexRoute
+  '/documents': typeof DocumentsIndexRoute
+  '/payments': typeof PaymentsIndexRoute
+  '/reports': typeof ReportsIndexRoute
+  '/settings': typeof SettingsIndexRoute
+  '/students': typeof StudentsIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
@@ -71,6 +120,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/applications': typeof ApplicationsIndexRoute
+  '/dashboard': typeof DashboardIndexRoute
+  '/documents': typeof DocumentsIndexRoute
+  '/payments': typeof PaymentsIndexRoute
+  '/reports': typeof ReportsIndexRoute
+  '/settings': typeof SettingsIndexRoute
+  '/students': typeof StudentsIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
@@ -82,6 +138,13 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/applications/': typeof ApplicationsIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/documents/': typeof DocumentsIndexRoute
+  '/payments/': typeof PaymentsIndexRoute
+  '/reports/': typeof ReportsIndexRoute
+  '/settings/': typeof SettingsIndexRoute
+  '/students/': typeof StudentsIndexRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
@@ -94,6 +157,13 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/applications'
+    | '/dashboard'
+    | '/documents'
+    | '/payments'
+    | '/reports'
+    | '/settings'
+    | '/students'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
@@ -104,6 +174,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/applications'
+    | '/dashboard'
+    | '/documents'
+    | '/payments'
+    | '/reports'
+    | '/settings'
+    | '/students'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
@@ -114,6 +191,13 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/applications/'
+    | '/dashboard/'
+    | '/documents/'
+    | '/payments/'
+    | '/reports/'
+    | '/settings/'
+    | '/students/'
     | '/demo/api/names'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
@@ -125,6 +209,13 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApplicationsIndexRoute: typeof ApplicationsIndexRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+  DocumentsIndexRoute: typeof DocumentsIndexRoute
+  PaymentsIndexRoute: typeof PaymentsIndexRoute
+  ReportsIndexRoute: typeof ReportsIndexRoute
+  SettingsIndexRoute: typeof SettingsIndexRoute
+  StudentsIndexRoute: typeof StudentsIndexRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
   DemoStartServerFuncsRoute: typeof DemoStartServerFuncsRoute
@@ -141,6 +232,55 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/students/': {
+      id: '/students/'
+      path: '/students'
+      fullPath: '/students'
+      preLoaderRoute: typeof StudentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/': {
+      id: '/settings/'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports/': {
+      id: '/reports/'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payments/': {
+      id: '/payments/'
+      path: '/payments'
+      fullPath: '/payments'
+      preLoaderRoute: typeof PaymentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/documents/': {
+      id: '/documents/'
+      path: '/documents'
+      fullPath: '/documents'
+      preLoaderRoute: typeof DocumentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/applications/': {
+      id: '/applications/'
+      path: '/applications'
+      fullPath: '/applications'
+      preLoaderRoute: typeof ApplicationsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/start/server-funcs': {
@@ -197,6 +337,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApplicationsIndexRoute: ApplicationsIndexRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+  DocumentsIndexRoute: DocumentsIndexRoute,
+  PaymentsIndexRoute: PaymentsIndexRoute,
+  ReportsIndexRoute: ReportsIndexRoute,
+  SettingsIndexRoute: SettingsIndexRoute,
+  StudentsIndexRoute: StudentsIndexRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,
   DemoStartServerFuncsRoute: DemoStartServerFuncsRoute,

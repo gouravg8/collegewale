@@ -6,7 +6,8 @@ import {
 	Outlet,
 	useRouterState,
 } from "@tanstack/react-router";
-import { Layout, Menu } from "antd";
+import { Avatar, Dropdown, Layout, Menu } from "antd";
+import { LogOut, User } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/")({ component: App });
@@ -14,29 +15,76 @@ export const Route = createFileRoute("/")({ component: App });
 const { Header, Sider, Content, Footer } = Layout;
 
 function App() {
-	const [collapsed, setCollapsed] = useState(true);
+	const [collapsed, setCollapsed] = useState(false);
 	const routerState = useRouterState();
 
-	// Example: current user privilege (replace with auth context)
-	const currentPrivilege: RoleType = "STUDENT";
+	// TODO: Replace with actual auth context
+	const currentUser = {
+		privilege: "COLLEGE" as RoleType,
+		fullName: "Admin User",
+		email: "admin@example.com",
+		collegeName: "Sample College",
+		collegeLogo: null,
+	};
 
-	const filteredItems = menuItems.filter(
-		(item) => item.privilege === currentPrivilege,
-	);
+	const filteredItems = menuItems.filter((item) => {
+		// Admin can see everything
+		if (currentUser.privilege === "ADMIN") return true;
+		// College can see college and student items
+		if (currentUser.privilege === "COLLEGE") {
+			return ["STUDENT", "COLLEGE"].includes(item.privilege);
+		}
+		// Others see only their privilege level
+		return item.privilege === currentUser.privilege;
+	});
 
 	const selectedKey = routerState.location.pathname;
 
+	const userMenuItems = [
+		{
+			key: "profile",
+			icon: <User size={16} />,
+			label: "Profile",
+		},
+		{
+			key: "logout",
+			icon: <LogOut size={16} />,
+			label: "Logout",
+			danger: true,
+		},
+	];
+
 	return (
 		<Layout style={{ minHeight: "100vh" }}>
-			<Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
+			<Sider
+				collapsible
+				collapsed={collapsed}
+				onCollapse={setCollapsed}
+				style={{
+					overflow: "auto",
+					height: "100vh",
+					position: "fixed",
+					left: 0,
+					top: 0,
+					bottom: 0,
+				}}
+			>
 				<div
 					style={{
-						height: 48,
-						margin: 16,
-						background: "rgba(255,255,255,0.2)",
-						borderRadius: 8,
+						height: 64,
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
+						padding: "0 16px",
+						borderBottom: "1px solid rgba(255,255,255,0.1)",
 					}}
-				/>
+				>
+					{!collapsed && (
+						<h2 style={{ color: "white", margin: 0, fontSize: "18px" }}>
+							CollegeWale
+						</h2>
+					)}
+				</div>
 				<Menu theme="dark" mode="inline" selectedKeys={[selectedKey]}>
 					{filteredItems.map((item) => (
 						<Menu.Item key={item.key} icon={item.icon}>
@@ -46,16 +94,74 @@ function App() {
 				</Menu>
 			</Sider>
 
-			<Layout>
-				<Header style={{ display: "flex", alignItems: "center" }}>
-					<h3 className="text-lg text-white">collegeWale</h3>
+			<Layout style={{ marginLeft: collapsed ? 80 : 200, transition: "all 0.2s" }}>
+				<Header
+					style={{
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "space-between",
+						background: "#fff",
+						padding: "0 24px",
+						boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
+						position: "sticky",
+						top: 0,
+						zIndex: 1,
+					}}
+				>
+					<div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+						{currentUser.collegeLogo ? (
+							<img
+								src={currentUser.collegeLogo}
+								alt="College Logo"
+								style={{ height: 40, width: 40, borderRadius: "50%" }}
+							/>
+						) : (
+							<div
+								style={{
+									height: 40,
+									width: 40,
+									borderRadius: "50%",
+									background: "#1890ff",
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center",
+									color: "white",
+									fontWeight: "bold",
+								}}
+							>
+								{currentUser.collegeName?.charAt(0) || "C"}
+							</div>
+						)}
+						<h3 style={{ margin: 0, fontSize: "16px" }}>
+							{currentUser.collegeName}
+						</h3>
+					</div>
+
+					<Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
+						<div
+							style={{
+								display: "flex",
+								alignItems: "center",
+								gap: "12px",
+								cursor: "pointer",
+							}}
+						>
+							<div style={{ textAlign: "right" }}>
+								<div style={{ fontWeight: 500 }}>{currentUser.fullName}</div>
+								<div style={{ fontSize: "12px", color: "#666" }}>
+									{currentUser.privilege}
+								</div>
+							</div>
+							<Avatar icon={<User size={16} />} />
+						</div>
+					</Dropdown>
 				</Header>
 
-				<Content style={{ margin: 16 }}>
+				<Content style={{ margin: "24px 16px 0" }}>
 					<div
 						style={{
-							padding: 16,
-							minHeight: 360,
+							padding: 24,
+							minHeight: "calc(100vh - 134px)",
 							background: "#fff",
 							borderRadius: 8,
 						}}
@@ -64,8 +170,8 @@ function App() {
 					</div>
 				</Content>
 
-				<Footer style={{ textAlign: "center" }}>
-					© {new Date().getFullYear()} collegeWale. All rights reserved.
+				<Footer style={{ textAlign: "center", background: "#f0f2f5" }}>
+					© {new Date().getFullYear()} CollegeWale. All rights reserved.
 				</Footer>
 			</Layout>
 		</Layout>
