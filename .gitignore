@@ -1,13 +1,31 @@
+# Dependencies
 node_modules
-.DS_Store
-dist
-dist-ssr
-*.local
-count.txt
+
+# Environment
 .env
-.nitro
-.tanstack
-.wrangler
+.env.local
+
+# Build outputs
 .output
-.vinxi
-todos.json
+dist
+.vercel
+.tanstack
+
+# Uploads (local development)
+uploads/
+
+# Database
+drizzle/
+
+# Logs
+*.log
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
