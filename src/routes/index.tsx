@@ -7,8 +7,8 @@ import {
 	useRouterState,
 } from "@tanstack/react-router";
 import { Avatar, Dropdown, Layout, Menu } from "antd";
-import { LogOut, User } from "lucide-react";
 import { useState } from "react";
+import { MdLogout, MdPerson } from "react-icons/md";
 
 export const Route = createFileRoute("/")({ component: App });
 
@@ -43,12 +43,12 @@ function App() {
 	const userMenuItems = [
 		{
 			key: "profile",
-			icon: <User size={16} />,
+			icon: <MdPerson size={16} />,
 			label: "Profile",
 		},
 		{
 			key: "logout",
-			icon: <LogOut size={16} />,
+			icon: <MdLogout size={16} />,
 			label: "Logout",
 			danger: true,
 		},
@@ -152,7 +152,7 @@ function App() {
 									{currentUser.privilege}
 								</div>
 							</div>
-							<Avatar icon={<User size={16} />} />
+							<Avatar icon={<MdPerson size={16} />} />
 						</div>
 					</Dropdown>
 				</Header>
