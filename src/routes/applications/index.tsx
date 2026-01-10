@@ -1,3 +1,4 @@
+import { HelpPanel } from "@/components/HelpPanel";
 import { createFileRoute } from "@tanstack/react-router";
 import { Button, Input, Select, Space, Table, Tag } from "antd";
 import { useState } from "react";
@@ -86,6 +87,8 @@ function ApplicationsPage() {
 
   return (
     <div>
+      <HelpPanel context="applications" />
+
       <div
         style={{
           display: "flex",

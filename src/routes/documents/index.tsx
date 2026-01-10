@@ -1,3 +1,4 @@
+import { HelpPanel } from "@/components/HelpPanel";
 import { createFileRoute } from "@tanstack/react-router";
 import { Button, Card, List, Space, Tag, Upload } from "antd";
 import { MdDelete, MdDescription, MdDownload, MdUpload } from "react-icons/md";
@@ -44,6 +45,8 @@ function DocumentsPage() {
 
   return (
     <div>
+      <HelpPanel context="documents" />
+
       <div
         style={{
           display: "flex",

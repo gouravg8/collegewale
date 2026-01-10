@@ -1,3 +1,4 @@
+import { HelpPanel } from "@/components/HelpPanel";
 import { createFileRoute } from "@tanstack/react-router";
 import { Card, Col, Row, Statistic } from "antd";
 import { MdCheckCircle, MdDescription, MdPayment, MdPeople } from "react-icons/md";
@@ -17,6 +18,8 @@ function Dashboard() {
 
   return (
     <div>
+      <HelpPanel context="dashboard" />
+
       <h1 style={{ marginBottom: 24 }}>Dashboard</h1>
 
       <Row gutter={[16, 16]}>

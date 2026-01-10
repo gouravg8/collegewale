@@ -17,6 +17,9 @@ import { Route as PaymentsIndexRouteImport } from './routes/payments/index'
 import { Route as DocumentsIndexRouteImport } from './routes/documents/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as ApplicationsIndexRouteImport } from './routes/applications/index'
+import { Route as ActivityLogsIndexRouteImport } from './routes/activity-logs/index'
+import { Route as StudentsNewRouteImport } from './routes/students/new'
+import { Route as AdminInviteCollegeRouteImport } from './routes/admin/invite-college'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
 import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
@@ -65,6 +68,21 @@ const ApplicationsIndexRoute = ApplicationsIndexRouteImport.update({
   path: '/applications/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ActivityLogsIndexRoute = ActivityLogsIndexRouteImport.update({
+  id: '/activity-logs/',
+  path: '/activity-logs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentsNewRoute = StudentsNewRouteImport.update({
+  id: '/students/new',
+  path: '/students/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminInviteCollegeRoute = AdminInviteCollegeRouteImport.update({
+  id: '/admin/invite-college',
+  path: '/admin/invite-college',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoStartServerFuncsRoute = DemoStartServerFuncsRouteImport.update({
   id: '/demo/start/server-funcs',
   path: '/demo/start/server-funcs',
@@ -103,6 +121,9 @@ const DemoStartSsrDataOnlyRoute = DemoStartSsrDataOnlyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin/invite-college': typeof AdminInviteCollegeRoute
+  '/students/new': typeof StudentsNewRoute
+  '/activity-logs': typeof ActivityLogsIndexRoute
   '/applications': typeof ApplicationsIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/documents': typeof DocumentsIndexRoute
@@ -120,6 +141,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin/invite-college': typeof AdminInviteCollegeRoute
+  '/students/new': typeof StudentsNewRoute
+  '/activity-logs': typeof ActivityLogsIndexRoute
   '/applications': typeof ApplicationsIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/documents': typeof DocumentsIndexRoute
@@ -138,6 +162,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin/invite-college': typeof AdminInviteCollegeRoute
+  '/students/new': typeof StudentsNewRoute
+  '/activity-logs/': typeof ActivityLogsIndexRoute
   '/applications/': typeof ApplicationsIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/documents/': typeof DocumentsIndexRoute
@@ -157,6 +184,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin/invite-college'
+    | '/students/new'
+    | '/activity-logs'
     | '/applications'
     | '/dashboard'
     | '/documents'
@@ -174,6 +204,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin/invite-college'
+    | '/students/new'
+    | '/activity-logs'
     | '/applications'
     | '/dashboard'
     | '/documents'
@@ -191,6 +224,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin/invite-college'
+    | '/students/new'
+    | '/activity-logs/'
     | '/applications/'
     | '/dashboard/'
     | '/documents/'
@@ -209,6 +245,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminInviteCollegeRoute: typeof AdminInviteCollegeRoute
+  StudentsNewRoute: typeof StudentsNewRoute
+  ActivityLogsIndexRoute: typeof ActivityLogsIndexRoute
   ApplicationsIndexRoute: typeof ApplicationsIndexRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   DocumentsIndexRoute: typeof DocumentsIndexRoute
@@ -283,6 +322,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApplicationsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/activity-logs/': {
+      id: '/activity-logs/'
+      path: '/activity-logs'
+      fullPath: '/activity-logs'
+      preLoaderRoute: typeof ActivityLogsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/students/new': {
+      id: '/students/new'
+      path: '/students/new'
+      fullPath: '/students/new'
+      preLoaderRoute: typeof StudentsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/invite-college': {
+      id: '/admin/invite-college'
+      path: '/admin/invite-college'
+      fullPath: '/admin/invite-college'
+      preLoaderRoute: typeof AdminInviteCollegeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/demo/start/server-funcs': {
       id: '/demo/start/server-funcs'
       path: '/demo/start/server-funcs'
@@ -337,6 +397,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminInviteCollegeRoute: AdminInviteCollegeRoute,
+  StudentsNewRoute: StudentsNewRoute,
+  ActivityLogsIndexRoute: ActivityLogsIndexRoute,
   ApplicationsIndexRoute: ApplicationsIndexRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   DocumentsIndexRoute: DocumentsIndexRoute,

@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { HelpPanel } from "@/components/HelpPanel";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Button, Input, Space, Table, Tag } from "antd";
 import { useState } from "react";
 import { MdAdd, MdSearch } from "react-icons/md";
@@ -9,6 +10,7 @@ export const Route = createFileRoute("/students/")({
 
 function StudentsPage() {
   const [searchText, setSearchText] = useState("");
+  const navigate = useNavigate();
 
   // TODO: Fetch from API
   const students = [
@@ -83,6 +85,8 @@ function StudentsPage() {
 
   return (
     <div>
+      <HelpPanel context="students" />
+
       <div
         style={{
           display: "flex",
@@ -91,8 +95,12 @@ function StudentsPage() {
           marginBottom: 16,
         }}
       >
-        <h1 style={{ margin: 0 }}>Students</h1>
-        <Button type="primary" icon={<MdAdd />}>
+        <h1 style={{ margin: 0 }}>Your Students</h1>
+        <Button
+          type="primary"
+          icon={<MdAdd />}
+          onClick={() => navigate({ to: "/students/new" })}
+        >
           Add Student
         </Button>
       </div>
