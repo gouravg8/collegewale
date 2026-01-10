@@ -1,7 +1,6 @@
 import { db } from "@/server/db";
 import { sessions, users } from "@/server/db/schema";
 import { ActivityActions, logActivity } from "@/server/utils/logger";
-import { json } from "@tanstack/react-start/server";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
@@ -12,7 +11,10 @@ export async function POST({ request }: { request: Request }) {
         const { email, password } = body;
 
         if (!email || !password) {
-            return json({ error: "Email and password are required" }, { status: 400 });
+            return new Response(JSON.stringify({ error: "Email and password are required" }), {
+                status: 400,
+                headers: { "Content-Type": "application/json" },
+            });
         }
 
         // Find user by email
@@ -23,7 +25,10 @@ export async function POST({ request }: { request: Request }) {
             .limit(1);
 
         if (userResult.length === 0) {
-            return json({ error: "Invalid credentials" }, { status: 401 });
+            return new Response(JSON.stringify({ error: "Invalid credentials" }), {
+                status: 401,
+                headers: { "Content-Type": "application/json" },
+            });
         }
 
         const user = userResult[0];
@@ -32,12 +37,18 @@ export async function POST({ request }: { request: Request }) {
         const isValidPassword = await bcrypt.compare(password, user.passwordHash);
 
         if (!isValidPassword) {
-            return json({ error: "Invalid credentials" }, { status: 401 });
+            return new Response(JSON.stringify({ error: "Invalid credentials" }), {
+                status: 401,
+                headers: { "Content-Type": "application/json" },
+            });
         }
 
         // Check if user is active
         if (!user.isActive) {
-            return json({ error: "Account is inactive" }, { status: 403 });
+            return new Response(JSON.stringify({ error: "Account is inactive" }), {
+                status: 403,
+                headers: { "Content-Type": "application/json" },
+            });
         }
 
         // Create session
@@ -61,7 +72,7 @@ export async function POST({ request }: { request: Request }) {
         });
 
         // Return session and user info
-        return json({
+        return new Response(JSON.stringify({
             session: {
                 token: sessionToken,
                 expiresAt: expiresAt.toISOString(),
@@ -73,9 +84,14 @@ export async function POST({ request }: { request: Request }) {
                 fullName: user.fullName,
                 collegeId: user.collegeId,
             },
+        }), {
+            headers: { "Content-Type": "application/json" },
         });
     } catch (error) {
         console.error("Login error:", error);
-        return json({ error: "Internal server error" }, { status: 500 });
+        return new Response(JSON.stringify({ error: "Internal server error" }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+        });
     }
 }

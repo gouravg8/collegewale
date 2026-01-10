@@ -2,7 +2,6 @@ import { db } from "@/server/db";
 import { sessions } from "@/server/db/schema";
 import { authenticateRequest } from "@/server/middleware/auth";
 import { ActivityActions, logActivity } from "@/server/utils/logger";
-import { json } from "@tanstack/react-start/server";
 import { eq } from "drizzle-orm";
 
 export async function POST({ request }: { request: Request }) {
@@ -11,7 +10,10 @@ export async function POST({ request }: { request: Request }) {
         const user = await authenticateRequest(request);
 
         if (!user) {
-            return json({ error: "Unauthorized" }, { status: 401 });
+            return new Response(JSON.stringify({ error: "Unauthorized" }), {
+                status: 401,
+                headers: { "Content-Type": "application/json" },
+            });
         }
 
         // Extract token
@@ -42,9 +44,15 @@ export async function POST({ request }: { request: Request }) {
             action: ActivityActions.USER_LOGOUT,
         });
 
-        return json({ success: true, message: "Logged out successfully" });
+        return new Response(JSON.stringify({ success: true, message: "Logged out successfully" }), {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+        });
     } catch (error) {
         console.error("Logout error:", error);
-        return json({ error: "Internal server error" }, { status: 500 });
+        return new Response(JSON.stringify({ error: "Internal server error" }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+        });
     }
 }

@@ -287,7 +287,7 @@ export const paymentsRelations = relations(payments, ({ one }) => ({
     }),
     student: one(students, {
         fields: [payments.studentId],
-        references: [payments.id],
+        references: [students.id],
     }),
 }));
 
