@@ -1,7 +1,7 @@
 import { getCurrentUser } from "@/config/auth-utils";
 import { menuItems } from "@/config/menu-items";
 import { TanStackDevtools } from "@tanstack/react-devtools";
-import { createRootRoute, HeadContent, Link, Outlet, Scripts, useRouterState } from "@tanstack/react-router";
+import { createRootRoute, HeadContent, Outlet, Scripts, useRouter, useRouterState } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { Avatar, Dropdown, Layout, Menu } from "antd";
 import { useState } from "react";
@@ -64,6 +64,7 @@ function RootComponent() {
 function AppLayout() {
 	const [collapsed, setCollapsed] = useState(false);
 	const routerState = useRouterState();
+	const router = useRouter();
 
 	// Get current user from auth context
 	const currentUser = getCurrentUser();
@@ -126,13 +127,17 @@ function AppLayout() {
 						</h2>
 					)}
 				</div>
-				<Menu theme="dark" mode="inline" selectedKeys={[selectedKey]}>
-					{filteredItems.map((item) => (
-						<Menu.Item key={item.key} icon={item.icon}>
-							<Link to={item.key}>{item.label}</Link>
-						</Menu.Item>
-					))}
-				</Menu>
+				<Menu
+					theme="dark"
+					mode="inline"
+					onClick={(e) => router.navigate({ to: e.key })}
+					items={filteredItems.map((item) => ({
+						key: item.key,
+						icon: item.icon,
+						label: item.label,
+					}))}
+					selectedKeys={[selectedKey]}
+				/>
 			</Sider>
 
 			<Layout style={{ marginLeft: collapsed ? 80 : 200, transition: "all 0.2s" }}>
