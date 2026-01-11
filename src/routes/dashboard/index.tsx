@@ -1,9 +1,11 @@
 import { HelpPanel } from "@/components/HelpPanel";
+import { requirePrivilege } from "@/config/auth-utils";
 import { createFileRoute } from "@tanstack/react-router";
 import { Card, Col, Row, Statistic } from "antd";
 import { MdCheckCircle, MdDescription, MdPayment, MdPeople } from "react-icons/md";
 
 export const Route = createFileRoute("/dashboard/")({
+  beforeLoad: requirePrivilege("STUDENT"),
   component: Dashboard,
 });
 

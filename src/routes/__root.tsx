@@ -1,5 +1,5 @@
+import { getCurrentUser } from "@/config/auth-utils";
 import { menuItems } from "@/config/menu-items";
-import { RoleType } from "@/config/roles";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createRootRoute, HeadContent, Link, Outlet, Scripts, useRouterState } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
@@ -65,14 +65,8 @@ function AppLayout() {
 	const [collapsed, setCollapsed] = useState(false);
 	const routerState = useRouterState();
 
-	// TODO: Replace with actual auth context
-	const currentUser = {
-		privilege: "COLLEGE" as RoleType,
-		fullName: "Admin User",
-		email: "admin@example.com",
-		collegeName: "Sample College",
-		collegeLogo: null,
-	};
+	// Get current user from auth context
+	const currentUser = getCurrentUser();
 
 	const filteredItems = menuItems.filter((item) => {
 		// Admin can see everything

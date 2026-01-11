@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UnauthorizedRouteImport } from './routes/unauthorized'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StudentsIndexRouteImport } from './routes/students/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
@@ -28,6 +29,11 @@ import { Route as DemoStartSsrSpaModeRouteImport } from './routes/demo/start.ssr
 import { Route as DemoStartSsrFullSsrRouteImport } from './routes/demo/start.ssr.full-ssr'
 import { Route as DemoStartSsrDataOnlyRouteImport } from './routes/demo/start.ssr.data-only'
 
+const UnauthorizedRoute = UnauthorizedRouteImport.update({
+  id: '/unauthorized',
+  path: '/unauthorized',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -121,6 +127,7 @@ const DemoStartSsrDataOnlyRoute = DemoStartSsrDataOnlyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/unauthorized': typeof UnauthorizedRoute
   '/admin/invite-college': typeof AdminInviteCollegeRoute
   '/students/new': typeof StudentsNewRoute
   '/activity-logs': typeof ActivityLogsIndexRoute
@@ -141,6 +148,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/unauthorized': typeof UnauthorizedRoute
   '/admin/invite-college': typeof AdminInviteCollegeRoute
   '/students/new': typeof StudentsNewRoute
   '/activity-logs': typeof ActivityLogsIndexRoute
@@ -162,6 +170,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/unauthorized': typeof UnauthorizedRoute
   '/admin/invite-college': typeof AdminInviteCollegeRoute
   '/students/new': typeof StudentsNewRoute
   '/activity-logs/': typeof ActivityLogsIndexRoute
@@ -184,6 +193,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/unauthorized'
     | '/admin/invite-college'
     | '/students/new'
     | '/activity-logs'
@@ -204,6 +214,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/unauthorized'
     | '/admin/invite-college'
     | '/students/new'
     | '/activity-logs'
@@ -224,6 +235,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/unauthorized'
     | '/admin/invite-college'
     | '/students/new'
     | '/activity-logs/'
@@ -245,6 +257,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  UnauthorizedRoute: typeof UnauthorizedRoute
   AdminInviteCollegeRoute: typeof AdminInviteCollegeRoute
   StudentsNewRoute: typeof StudentsNewRoute
   ActivityLogsIndexRoute: typeof ActivityLogsIndexRoute
@@ -266,6 +279,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/unauthorized': {
+      id: '/unauthorized'
+      path: '/unauthorized'
+      fullPath: '/unauthorized'
+      preLoaderRoute: typeof UnauthorizedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -397,6 +417,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  UnauthorizedRoute: UnauthorizedRoute,
   AdminInviteCollegeRoute: AdminInviteCollegeRoute,
   StudentsNewRoute: StudentsNewRoute,
   ActivityLogsIndexRoute: ActivityLogsIndexRoute,

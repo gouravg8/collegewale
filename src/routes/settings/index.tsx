@@ -1,8 +1,10 @@
+import { requirePrivilege } from "@/config/auth-utils";
 import { createFileRoute } from "@tanstack/react-router";
 import { Button, Card, Form, Input, Select, Upload } from "antd";
 import { MdUpload } from "react-icons/md";
 
 export const Route = createFileRoute("/settings/")({
+  beforeLoad: requirePrivilege("STUDENT"),
   component: SettingsPage,
 });
 

@@ -1,9 +1,11 @@
 import { HelpPanel } from "@/components/HelpPanel";
+import { requirePrivilege } from "@/config/auth-utils";
 import { createFileRoute } from "@tanstack/react-router";
 import { Button, Card, List, Space, Tag, Upload } from "antd";
 import { MdDelete, MdDescription, MdDownload, MdUpload } from "react-icons/md";
 
 export const Route = createFileRoute("/documents/")({
+  beforeLoad: requirePrivilege("STUDENT"),
   component: DocumentsPage,
 });
 

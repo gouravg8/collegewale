@@ -1,10 +1,12 @@
 import { HelpPanel } from "@/components/HelpPanel";
+import { requirePrivilege } from "@/config/auth-utils";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Button, Input, Space, Table, Tag } from "antd";
 import { useState } from "react";
 import { MdAdd, MdSearch } from "react-icons/md";
 
 export const Route = createFileRoute("/students/")({
+  beforeLoad: requirePrivilege("COLLEGE"),
   component: StudentsPage,
 });
 
@@ -70,7 +72,7 @@ function StudentsPage() {
     {
       title: "Actions",
       key: "actions",
-      render: (_: any, record: any) => (
+      render: (_: any, _record: any) => (
         <Space>
           <Button type="link" size="small">
             View
