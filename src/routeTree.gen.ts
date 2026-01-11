@@ -21,6 +21,8 @@ import { Route as ApplicationsIndexRouteImport } from './routes/applications/ind
 import { Route as ActivityLogsIndexRouteImport } from './routes/activity-logs/index'
 import { Route as StudentsNewRouteImport } from './routes/students/new'
 import { Route as AuthCollegeSignupRouteImport } from './routes/auth/college-signup'
+import { Route as ApplicationsNewRouteImport } from './routes/applications/new'
+import { Route as ApplicationsApplicationIdRouteImport } from './routes/applications/$applicationId'
 import { Route as AdminInviteCollegeRouteImport } from './routes/admin/invite-college'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
@@ -90,6 +92,17 @@ const AuthCollegeSignupRoute = AuthCollegeSignupRouteImport.update({
   path: '/auth/college-signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApplicationsNewRoute = ApplicationsNewRouteImport.update({
+  id: '/applications/new',
+  path: '/applications/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApplicationsApplicationIdRoute =
+  ApplicationsApplicationIdRouteImport.update({
+    id: '/applications/$applicationId',
+    path: '/applications/$applicationId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminInviteCollegeRoute = AdminInviteCollegeRouteImport.update({
   id: '/admin/invite-college',
   path: '/admin/invite-college',
@@ -135,6 +148,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/admin/invite-college': typeof AdminInviteCollegeRoute
+  '/applications/$applicationId': typeof ApplicationsApplicationIdRoute
+  '/applications/new': typeof ApplicationsNewRoute
   '/auth/college-signup': typeof AuthCollegeSignupRoute
   '/students/new': typeof StudentsNewRoute
   '/activity-logs': typeof ActivityLogsIndexRoute
@@ -157,6 +172,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/admin/invite-college': typeof AdminInviteCollegeRoute
+  '/applications/$applicationId': typeof ApplicationsApplicationIdRoute
+  '/applications/new': typeof ApplicationsNewRoute
   '/auth/college-signup': typeof AuthCollegeSignupRoute
   '/students/new': typeof StudentsNewRoute
   '/activity-logs': typeof ActivityLogsIndexRoute
@@ -180,6 +197,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/admin/invite-college': typeof AdminInviteCollegeRoute
+  '/applications/$applicationId': typeof ApplicationsApplicationIdRoute
+  '/applications/new': typeof ApplicationsNewRoute
   '/auth/college-signup': typeof AuthCollegeSignupRoute
   '/students/new': typeof StudentsNewRoute
   '/activity-logs/': typeof ActivityLogsIndexRoute
@@ -204,6 +223,8 @@ export interface FileRouteTypes {
     | '/'
     | '/unauthorized'
     | '/admin/invite-college'
+    | '/applications/$applicationId'
+    | '/applications/new'
     | '/auth/college-signup'
     | '/students/new'
     | '/activity-logs'
@@ -226,6 +247,8 @@ export interface FileRouteTypes {
     | '/'
     | '/unauthorized'
     | '/admin/invite-college'
+    | '/applications/$applicationId'
+    | '/applications/new'
     | '/auth/college-signup'
     | '/students/new'
     | '/activity-logs'
@@ -248,6 +271,8 @@ export interface FileRouteTypes {
     | '/'
     | '/unauthorized'
     | '/admin/invite-college'
+    | '/applications/$applicationId'
+    | '/applications/new'
     | '/auth/college-signup'
     | '/students/new'
     | '/activity-logs/'
@@ -271,6 +296,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   UnauthorizedRoute: typeof UnauthorizedRoute
   AdminInviteCollegeRoute: typeof AdminInviteCollegeRoute
+  ApplicationsApplicationIdRoute: typeof ApplicationsApplicationIdRoute
+  ApplicationsNewRoute: typeof ApplicationsNewRoute
   AuthCollegeSignupRoute: typeof AuthCollegeSignupRoute
   StudentsNewRoute: typeof StudentsNewRoute
   ActivityLogsIndexRoute: typeof ActivityLogsIndexRoute
@@ -376,6 +403,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCollegeSignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/applications/new': {
+      id: '/applications/new'
+      path: '/applications/new'
+      fullPath: '/applications/new'
+      preLoaderRoute: typeof ApplicationsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/applications/$applicationId': {
+      id: '/applications/$applicationId'
+      path: '/applications/$applicationId'
+      fullPath: '/applications/$applicationId'
+      preLoaderRoute: typeof ApplicationsApplicationIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/invite-college': {
       id: '/admin/invite-college'
       path: '/admin/invite-college'
@@ -439,6 +480,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   UnauthorizedRoute: UnauthorizedRoute,
   AdminInviteCollegeRoute: AdminInviteCollegeRoute,
+  ApplicationsApplicationIdRoute: ApplicationsApplicationIdRoute,
+  ApplicationsNewRoute: ApplicationsNewRoute,
   AuthCollegeSignupRoute: AuthCollegeSignupRoute,
   StudentsNewRoute: StudentsNewRoute,
   ActivityLogsIndexRoute: ActivityLogsIndexRoute,

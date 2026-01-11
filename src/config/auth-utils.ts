@@ -5,7 +5,7 @@ import { RoleType } from "./roles";
 export function getCurrentUser() {
     // This is a placeholder - replace with actual auth logic
     return {
-        privilege: "STUDENT" as RoleType,
+        privilege: "COLLEGE" as RoleType,
         fullName: "Admin User",
         email: "admin@example.com",
         collegeName: "Sample College",

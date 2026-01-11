@@ -1,6 +1,6 @@
 import { HelpPanel } from "@/components/HelpPanel";
 import { requirePrivilege } from "@/config/auth-utils";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Button, Input, Select, Space, Table, Tag } from "antd";
 import { useState } from "react";
 import { MdAdd, MdSearch } from "react-icons/md";
@@ -14,13 +14,14 @@ const statusColors: Record<string, string> = {
   DRAFT: "default",
   SUBMITTED: "processing",
   VERIFIED: "blue",
-  APPROVED: "success",
-  ADMITTED: "green",
+  APPROVED: "purple",
+  ADMITTED: "success",
 };
 
 function ApplicationsPage() {
   const [searchText, setSearchText] = useState("");
   const [statusFilter, setStatusFilter] = useState<string | undefined>();
+  const navigate = useNavigate();
 
   // TODO: Fetch from API
   const applications = [
@@ -74,15 +75,14 @@ function ApplicationsPage() {
     {
       title: "Actions",
       key: "actions",
-      render: (_: any, _record: any) => (
-        <Space>
-          <Button type="link" size="small">
-            View
-          </Button>
-          <Button type="link" size="small">
-            Update Status
-          </Button>
-        </Space>
+      render: (_: any, record: any) => (
+        <Button
+          type="link"
+          size="small"
+          onClick={() => navigate({ to: "/applications/$applicationId", params: { applicationId: record.id } })}
+        >
+          View Details
+        </Button>
       ),
     },
   ];
@@ -100,7 +100,7 @@ function ApplicationsPage() {
         }}
       >
         <h1 style={{ margin: 0 }}>Applications</h1>
-        <Button type="primary" icon={<MdAdd />}>
+        <Button type="primary" icon={<MdAdd />} onClick={() => navigate({ to: "/applications/new" })}>
           New Application
         </Button>
       </div>
@@ -137,6 +137,10 @@ function ApplicationsPage() {
           showSizeChanger: true,
           showTotal: (total) => `Total ${total} applications`,
         }}
+        onRow={(record) => ({
+          onClick: () => navigate({ to: "/applications/$applicationId", params: { applicationId: record.id } }),
+          style: { cursor: 'pointer' }
+        })}
       />
     </div>
   );
