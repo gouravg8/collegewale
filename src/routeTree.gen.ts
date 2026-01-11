@@ -20,6 +20,7 @@ import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as ApplicationsIndexRouteImport } from './routes/applications/index'
 import { Route as ActivityLogsIndexRouteImport } from './routes/activity-logs/index'
 import { Route as StudentsNewRouteImport } from './routes/students/new'
+import { Route as AuthCollegeSignupRouteImport } from './routes/auth/college-signup'
 import { Route as AdminInviteCollegeRouteImport } from './routes/admin/invite-college'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
@@ -84,6 +85,11 @@ const StudentsNewRoute = StudentsNewRouteImport.update({
   path: '/students/new',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthCollegeSignupRoute = AuthCollegeSignupRouteImport.update({
+  id: '/auth/college-signup',
+  path: '/auth/college-signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminInviteCollegeRoute = AdminInviteCollegeRouteImport.update({
   id: '/admin/invite-college',
   path: '/admin/invite-college',
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/admin/invite-college': typeof AdminInviteCollegeRoute
+  '/auth/college-signup': typeof AuthCollegeSignupRoute
   '/students/new': typeof StudentsNewRoute
   '/activity-logs': typeof ActivityLogsIndexRoute
   '/applications': typeof ApplicationsIndexRoute
@@ -150,6 +157,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/admin/invite-college': typeof AdminInviteCollegeRoute
+  '/auth/college-signup': typeof AuthCollegeSignupRoute
   '/students/new': typeof StudentsNewRoute
   '/activity-logs': typeof ActivityLogsIndexRoute
   '/applications': typeof ApplicationsIndexRoute
@@ -172,6 +180,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/unauthorized': typeof UnauthorizedRoute
   '/admin/invite-college': typeof AdminInviteCollegeRoute
+  '/auth/college-signup': typeof AuthCollegeSignupRoute
   '/students/new': typeof StudentsNewRoute
   '/activity-logs/': typeof ActivityLogsIndexRoute
   '/applications/': typeof ApplicationsIndexRoute
@@ -195,6 +204,7 @@ export interface FileRouteTypes {
     | '/'
     | '/unauthorized'
     | '/admin/invite-college'
+    | '/auth/college-signup'
     | '/students/new'
     | '/activity-logs'
     | '/applications'
@@ -216,6 +226,7 @@ export interface FileRouteTypes {
     | '/'
     | '/unauthorized'
     | '/admin/invite-college'
+    | '/auth/college-signup'
     | '/students/new'
     | '/activity-logs'
     | '/applications'
@@ -237,6 +248,7 @@ export interface FileRouteTypes {
     | '/'
     | '/unauthorized'
     | '/admin/invite-college'
+    | '/auth/college-signup'
     | '/students/new'
     | '/activity-logs/'
     | '/applications/'
@@ -259,6 +271,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   UnauthorizedRoute: typeof UnauthorizedRoute
   AdminInviteCollegeRoute: typeof AdminInviteCollegeRoute
+  AuthCollegeSignupRoute: typeof AuthCollegeSignupRoute
   StudentsNewRoute: typeof StudentsNewRoute
   ActivityLogsIndexRoute: typeof ActivityLogsIndexRoute
   ApplicationsIndexRoute: typeof ApplicationsIndexRoute
@@ -356,6 +369,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentsNewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/college-signup': {
+      id: '/auth/college-signup'
+      path: '/auth/college-signup'
+      fullPath: '/auth/college-signup'
+      preLoaderRoute: typeof AuthCollegeSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/invite-college': {
       id: '/admin/invite-college'
       path: '/admin/invite-college'
@@ -419,6 +439,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   UnauthorizedRoute: UnauthorizedRoute,
   AdminInviteCollegeRoute: AdminInviteCollegeRoute,
+  AuthCollegeSignupRoute: AuthCollegeSignupRoute,
   StudentsNewRoute: StudentsNewRoute,
   ActivityLogsIndexRoute: ActivityLogsIndexRoute,
   ApplicationsIndexRoute: ApplicationsIndexRoute,

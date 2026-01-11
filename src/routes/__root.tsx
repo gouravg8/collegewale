@@ -37,13 +37,22 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+	const routerState = useRouterState();
+	const isAuthRoute = routerState.location.pathname.startsWith("/auth") || routerState.location.pathname === "/login";
+
 	return (
 		<html lang="en">
 			<head>
 				<HeadContent />
 			</head>
 			<body>
-				<AppLayout />
+				{isAuthRoute ? (
+					<div className="min-h-screen bg-gray-50">
+						<Outlet />
+					</div>
+				) : (
+					<AppLayout />
+				)}
 				<TanStackDevtools
 					config={{
 						position: "bottom-right",
