@@ -26,7 +26,7 @@ function ApplicationDetailPage() {
   const userRole = currentUser.privilege as RoleType;
 
   const isCollegeOrAdmin = ["COLLEGE", "ADMIN"].includes(userRole);
-  const isStudent = userRole === "STUDENT";
+  // const isStudent = userRole === "STUDENT";
   // Agent has limited view logic if needed
 
   // Mock Data - In real app, fetch by ID
