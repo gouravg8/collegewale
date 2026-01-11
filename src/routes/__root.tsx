@@ -185,19 +185,9 @@ function AppLayout() {
 					</div>
 
 					<Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
-						<div
-							style={{
-								display: "flex",
-								alignItems: "center",
-								gap: "12px",
-								cursor: "pointer",
-							}}
-						>
-							<div style={{ textAlign: "right" }}>
-								<div style={{ fontWeight: 500 }}>{currentUser.fullName}</div>
-								<div style={{ fontSize: "12px", color: "#666" }}>
-									{currentUser.privilege}
-								</div>
+						<div className="flex items-center gap-3" >
+							<div className="font-medium">{currentUser.fullName}
+								<span className="text-xs text-gray-500 ml-2">({currentUser.privilege})</span>
 							</div>
 							<Avatar icon={<MdPerson size={16} />} />
 						</div>
