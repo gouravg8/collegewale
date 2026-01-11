@@ -1,6 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { requirePrivilege } from "@/config/auth-utils";
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/activity-logs/')({
+  beforeLoad: requirePrivilege("ADMIN"),
   component: RouteComponent,
 })
 

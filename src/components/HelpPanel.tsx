@@ -1,8 +1,4 @@
-import { Card, Typography } from "antd";
-import { useState } from "react";
 import { MdHelp, MdInfo } from "react-icons/md";
-
-const { Text, Paragraph } = Typography;
 
 interface HelpPanelProps {
     context: "dashboard" | "students" | "applications" | "documents" | "payments" | "settings" | "reports" | "activity-logs";
@@ -92,84 +88,46 @@ const contextualHelp: Record<string, { title: string; instructions: string[]; ti
 };
 
 export function HelpPanel({ context }: HelpPanelProps) {
-    const [expanded, setExpanded] = useState(true);
     const help = contextualHelp[context] || contextualHelp.dashboard;
 
-    if (!expanded) {
-        return (
-            <Card
-                size="small"
-                style={{
-                    position: "fixed",
-                    right: 16,
-                    top: 100,
-                    width: 48,
-                    cursor: "pointer",
-                    zIndex: 100,
-                }}
-                onClick={() => setExpanded(true)}
-            >
-                <MdHelp size={24} style={{ color: "#1890ff" }} />
-            </Card>
-        );
-    }
-
     return (
-        <Card
-            title={
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <MdInfo style={{ color: "#1890ff" }} />
-                    <span>{help.title}</span>
-                </div>
-            }
-            size="small"
-            style={{
-                position: "fixed",
-                right: 16,
-                top: 100,
-                width: 320,
-                maxHeight: "calc(100vh - 200px)",
-                overflow: "auto",
-                zIndex: 100,
-                boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-            }}
-            extra={
-                <Text
-                    type="secondary"
-                    style={{ cursor: "pointer", fontSize: 20 }}
-                    onClick={() => setExpanded(false)}
-                >
-                    ×
-                </Text>
-            }
-        >
-            <div style={{ fontSize: 13 }}>
-                <Paragraph style={{ marginBottom: 8, fontWeight: 500 }}>
-                    Instructions:
-                </Paragraph>
-                <ul style={{ paddingLeft: 20, margin: 0 }}>
-                    {help.instructions.map((instruction, idx) => (
-                        <li key={idx} style={{ marginBottom: 6 }}>
-                            <Text>{instruction}</Text>
-                        </li>
-                    ))}
-                </ul>
-
-                {help.tips && help.tips.length > 0 && (
-                    <>
-                        <Paragraph style={{ marginTop: 16, marginBottom: 8, fontWeight: 500 }}>
-                            💡 Tips:
-                        </Paragraph>
-                        <ul style={{ paddingLeft: 20, margin: 0 }}>
-                            {help.tips.map((tip, idx) => (
-                                <li key={idx} style={{ marginBottom: 6 }}>
-                                    <Text type="secondary">{tip}</Text>
-                                </li>
-                            ))}
-                        </ul>
-                    </>
-                )}
+        <div className="fixed right-4 bottom-24 z-50 group flex flex-col items-end">
+            {/* Icon Trigger */}
+            <div className="bg-white p-3 rounded-full shadow-md cursor-pointer hover:shadow-lg transition-shadow text-blue-500 border border-gray-100 flex items-center justify-center w-12 h-12">
+                <MdHelp size={24} />
             </div>
-        </Card>
+
+            {/* Tooltip Content */}
+            <div className="absolute bottom-14 right-0 w-80 bg-white rounded-lg shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right scale-95 group-hover:scale-100 z-50 pointer-events-none group-hover:pointer-events-auto">
+                {/* Header */}
+                <div className="flex items-center gap-2 p-3 border-b border-gray-100 bg-gray-50 rounded-t-lg">
+                    <MdInfo className="text-blue-500" size={18} />
+                    <span className="font-medium text-gray-800">{help.title}</span>
+                </div>
+
+                {/* Content */}
+                <div className="p-4 text-sm">
+                    <div className="mb-2 font-medium text-gray-700">Instructions:</div>
+                    <ul className="list-disc pl-5 mb-4 text-gray-600 space-y-1">
+                        {help.instructions.map((instruction, idx) => (
+                            <li key={idx}>{instruction}</li>
+                        ))}
+                    </ul>
+
+                    {help.tips && help.tips.length > 0 && (
+                        <>
+                            <div className="mb-2 font-medium text-gray-700 mt-4 flex items-center gap-2">
+                                <span>💡</span> Tips:
+                            </div>
+                            <ul className="list-disc pl-5 text-gray-500 space-y-1">
+                                {help.tips.map((tip, idx) => (
+                                    <li key={idx}>{tip}</li>
+                                ))}
+                            </ul>
+                        </>
+                    )}
+                </div>
+            </div>
+        </div>
     );
 }

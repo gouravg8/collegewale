@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UnauthorizedRouteImport } from './routes/unauthorized'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StudentsIndexRouteImport } from './routes/students/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
@@ -19,6 +20,9 @@ import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as ApplicationsIndexRouteImport } from './routes/applications/index'
 import { Route as ActivityLogsIndexRouteImport } from './routes/activity-logs/index'
 import { Route as StudentsNewRouteImport } from './routes/students/new'
+import { Route as AuthCollegeSignupRouteImport } from './routes/auth/college-signup'
+import { Route as ApplicationsNewRouteImport } from './routes/applications/new'
+import { Route as ApplicationsApplicationIdRouteImport } from './routes/applications/$applicationId'
 import { Route as AdminInviteCollegeRouteImport } from './routes/admin/invite-college'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
@@ -28,6 +32,11 @@ import { Route as DemoStartSsrSpaModeRouteImport } from './routes/demo/start.ssr
 import { Route as DemoStartSsrFullSsrRouteImport } from './routes/demo/start.ssr.full-ssr'
 import { Route as DemoStartSsrDataOnlyRouteImport } from './routes/demo/start.ssr.data-only'
 
+const UnauthorizedRoute = UnauthorizedRouteImport.update({
+  id: '/unauthorized',
+  path: '/unauthorized',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -78,6 +87,22 @@ const StudentsNewRoute = StudentsNewRouteImport.update({
   path: '/students/new',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthCollegeSignupRoute = AuthCollegeSignupRouteImport.update({
+  id: '/auth/college-signup',
+  path: '/auth/college-signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApplicationsNewRoute = ApplicationsNewRouteImport.update({
+  id: '/applications/new',
+  path: '/applications/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApplicationsApplicationIdRoute =
+  ApplicationsApplicationIdRouteImport.update({
+    id: '/applications/$applicationId',
+    path: '/applications/$applicationId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminInviteCollegeRoute = AdminInviteCollegeRouteImport.update({
   id: '/admin/invite-college',
   path: '/admin/invite-college',
@@ -121,7 +146,11 @@ const DemoStartSsrDataOnlyRoute = DemoStartSsrDataOnlyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/unauthorized': typeof UnauthorizedRoute
   '/admin/invite-college': typeof AdminInviteCollegeRoute
+  '/applications/$applicationId': typeof ApplicationsApplicationIdRoute
+  '/applications/new': typeof ApplicationsNewRoute
+  '/auth/college-signup': typeof AuthCollegeSignupRoute
   '/students/new': typeof StudentsNewRoute
   '/activity-logs': typeof ActivityLogsIndexRoute
   '/applications': typeof ApplicationsIndexRoute
@@ -141,7 +170,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/unauthorized': typeof UnauthorizedRoute
   '/admin/invite-college': typeof AdminInviteCollegeRoute
+  '/applications/$applicationId': typeof ApplicationsApplicationIdRoute
+  '/applications/new': typeof ApplicationsNewRoute
+  '/auth/college-signup': typeof AuthCollegeSignupRoute
   '/students/new': typeof StudentsNewRoute
   '/activity-logs': typeof ActivityLogsIndexRoute
   '/applications': typeof ApplicationsIndexRoute
@@ -162,7 +195,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/unauthorized': typeof UnauthorizedRoute
   '/admin/invite-college': typeof AdminInviteCollegeRoute
+  '/applications/$applicationId': typeof ApplicationsApplicationIdRoute
+  '/applications/new': typeof ApplicationsNewRoute
+  '/auth/college-signup': typeof AuthCollegeSignupRoute
   '/students/new': typeof StudentsNewRoute
   '/activity-logs/': typeof ActivityLogsIndexRoute
   '/applications/': typeof ApplicationsIndexRoute
@@ -184,7 +221,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/unauthorized'
     | '/admin/invite-college'
+    | '/applications/$applicationId'
+    | '/applications/new'
+    | '/auth/college-signup'
     | '/students/new'
     | '/activity-logs'
     | '/applications'
@@ -204,7 +245,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/unauthorized'
     | '/admin/invite-college'
+    | '/applications/$applicationId'
+    | '/applications/new'
+    | '/auth/college-signup'
     | '/students/new'
     | '/activity-logs'
     | '/applications'
@@ -224,7 +269,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/unauthorized'
     | '/admin/invite-college'
+    | '/applications/$applicationId'
+    | '/applications/new'
+    | '/auth/college-signup'
     | '/students/new'
     | '/activity-logs/'
     | '/applications/'
@@ -245,7 +294,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  UnauthorizedRoute: typeof UnauthorizedRoute
   AdminInviteCollegeRoute: typeof AdminInviteCollegeRoute
+  ApplicationsApplicationIdRoute: typeof ApplicationsApplicationIdRoute
+  ApplicationsNewRoute: typeof ApplicationsNewRoute
+  AuthCollegeSignupRoute: typeof AuthCollegeSignupRoute
   StudentsNewRoute: typeof StudentsNewRoute
   ActivityLogsIndexRoute: typeof ActivityLogsIndexRoute
   ApplicationsIndexRoute: typeof ApplicationsIndexRoute
@@ -266,6 +319,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/unauthorized': {
+      id: '/unauthorized'
+      path: '/unauthorized'
+      fullPath: '/unauthorized'
+      preLoaderRoute: typeof UnauthorizedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -336,6 +396,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentsNewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/college-signup': {
+      id: '/auth/college-signup'
+      path: '/auth/college-signup'
+      fullPath: '/auth/college-signup'
+      preLoaderRoute: typeof AuthCollegeSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/applications/new': {
+      id: '/applications/new'
+      path: '/applications/new'
+      fullPath: '/applications/new'
+      preLoaderRoute: typeof ApplicationsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/applications/$applicationId': {
+      id: '/applications/$applicationId'
+      path: '/applications/$applicationId'
+      fullPath: '/applications/$applicationId'
+      preLoaderRoute: typeof ApplicationsApplicationIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/invite-college': {
       id: '/admin/invite-college'
       path: '/admin/invite-college'
@@ -397,7 +478,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  UnauthorizedRoute: UnauthorizedRoute,
   AdminInviteCollegeRoute: AdminInviteCollegeRoute,
+  ApplicationsApplicationIdRoute: ApplicationsApplicationIdRoute,
+  ApplicationsNewRoute: ApplicationsNewRoute,
+  AuthCollegeSignupRoute: AuthCollegeSignupRoute,
   StudentsNewRoute: StudentsNewRoute,
   ActivityLogsIndexRoute: ActivityLogsIndexRoute,
   ApplicationsIndexRoute: ApplicationsIndexRoute,

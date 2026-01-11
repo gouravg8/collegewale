@@ -1,10 +1,12 @@
 import { HelpPanel } from "@/components/HelpPanel";
+import { requirePrivilege } from "@/config/auth-utils";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Button, Input, Space, Table, Tag } from "antd";
 import { useState } from "react";
 import { MdAdd, MdSearch } from "react-icons/md";
 
 export const Route = createFileRoute("/students/")({
+  beforeLoad: requirePrivilege("COLLEGE"),
   component: StudentsPage,
 });
 
@@ -12,23 +14,25 @@ function StudentsPage() {
   const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
 
-  // TODO: Fetch from API
+  // For now, this mimics a list of Admitted students
   const students = [
     {
       id: "1",
-      fullName: "John Doe",
-      email: "john@example.com",
+      fullName: "Admitted Student 1",
+      email: "student1@example.com",
       phone: "+91 9876543210",
       course: "GNM",
-      status: "Active",
+      status: "ADMITTED",
+      admissionDate: "2024-01-15",
     },
     {
       id: "2",
-      fullName: "Jane Smith",
-      email: "jane@example.com",
+      fullName: "Admitted Student 2",
+      email: "student2@example.com",
       phone: "+91 9876543211",
       course: "ANM",
-      status: "Active",
+      status: "ADMITTED",
+      admissionDate: "2024-01-12",
     },
   ];
 
@@ -60,23 +64,25 @@ function StudentsPage() {
       onFilter: (value: any, record: any) => record.course === value,
     },
     {
+      title: "Admission Date",
+      dataIndex: "admissionDate",
+      key: "admissionDate",
+    },
+    {
       title: "Status",
       dataIndex: "status",
       key: "status",
       render: (status: string) => (
-        <Tag color={status === "Active" ? "green" : "red"}>{status}</Tag>
+        <Tag color="green">{status}</Tag>
       ),
     },
     {
       title: "Actions",
       key: "actions",
-      render: (_: any, record: any) => (
+      render: (_: any, _record: any) => (
         <Space>
           <Button type="link" size="small">
-            View
-          </Button>
-          <Button type="link" size="small">
-            Edit
+            View Profile
           </Button>
         </Space>
       ),
@@ -95,13 +101,13 @@ function StudentsPage() {
           marginBottom: 16,
         }}
       >
-        <h1 style={{ margin: 0 }}>Your Students</h1>
+        <h1 style={{ margin: 0 }}>Enrolled Students</h1>
         <Button
           type="primary"
           icon={<MdAdd />}
-          onClick={() => navigate({ to: "/students/new" })}
+          onClick={() => navigate({ to: "/applications/new" })}
         >
-          Add Student
+          Add New Student
         </Button>
       </div>
 
