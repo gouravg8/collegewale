@@ -102,29 +102,11 @@ function AppLayout() {
 				collapsible
 				collapsed={collapsed}
 				onCollapse={setCollapsed}
-				style={{
-					overflow: "auto",
-					height: "100vh",
-					position: "fixed",
-					left: 0,
-					top: 0,
-					bottom: 0,
-				}}
+				className="h-screen! fixed! left-0! top-0! bottom-0! overflow-auto"
 			>
-				<div
-					style={{
-						height: 64,
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "center",
-						padding: "0 16px",
-						borderBottom: "1px solid rgba(255,255,255,0.1)",
-					}}
-				>
+				<div className="h-16 flex items-center justify-center border-b border-slate-800">
 					{!collapsed && (
-						<h2 style={{ color: "white", margin: 0, fontSize: "18px" }}>
-							CollegeWale
-						</h2>
+						<h2 className="text-white text-lg font-bold">CollegeWale</h2>
 					)}
 				</div>
 				<Menu
@@ -138,49 +120,14 @@ function AppLayout() {
 					}))}
 					selectedKeys={[selectedKey]}
 				/>
-			</Sider>
+			</Sider >
 
 			<Layout style={{ marginLeft: collapsed ? 80 : 200, transition: "all 0.2s" }}>
 				<Header
-					style={{
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "space-between",
-						background: "#fff",
-						padding: "0 24px",
-						boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
-						position: "sticky",
-						top: 0,
-						zIndex: 1,
-					}}
+					className="flex items-center justify-between bg-white! shadow-sm"
 				>
-					<div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-						{currentUser.collegeLogo ? (
-							<img
-								src={currentUser.collegeLogo}
-								alt="College Logo"
-								style={{ height: 40, width: 40, borderRadius: "50%" }}
-							/>
-						) : (
-							<div
-								style={{
-									height: 40,
-									width: 40,
-									borderRadius: "50%",
-									background: "#1890ff",
-									display: "flex",
-									alignItems: "center",
-									justifyContent: "center",
-									color: "white",
-									fontWeight: "bold",
-								}}
-							>
-								{currentUser.collegeName?.charAt(0) || "C"}
-							</div>
-						)}
-						<h3 style={{ margin: 0, fontSize: "16px" }}>
-							{currentUser.collegeName}
-						</h3>
+					<div className="flex items-center gap-3">
+						<h3 className="text-lg font-bold">{currentUser.collegeName}</h3>
 					</div>
 
 					<Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
@@ -194,22 +141,15 @@ function AppLayout() {
 				</Header>
 
 				<Content style={{ margin: "24px 16px 0" }}>
-					<div
-						style={{
-							padding: 24,
-							minHeight: "calc(100vh - 134px)",
-							background: "#fff",
-							borderRadius: 8,
-						}}
-					>
+					<div className="p-4 py-6 min-h-[calc(100vh-134px)] bg-white rounded-lg">
 						<Outlet />
 					</div>
 				</Content>
 
-				<Footer style={{ textAlign: "center", background: "#f0f2f5" }}>
+				<Footer className="text-center text-gray-500">
 					© {new Date().getFullYear()} CollegeWale. All rights reserved.
 				</Footer>
 			</Layout>
-		</Layout>
+		</Layout >
 	);
 }
