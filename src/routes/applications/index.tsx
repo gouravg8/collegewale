@@ -1,10 +1,11 @@
 import { HelpPanel } from "@/components/HelpPanel";
-import { requirePrivilege } from "@/config/auth-utils";
+import { getCurrentUser, requirePrivilege } from "@/config/auth-utils";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Button, Input, Select, Space, Table, Tag } from "antd";
 import { useState } from "react";
 import { MdAdd, MdSearch } from "react-icons/md";
 
+// Allow STUDENT role to access, we filter inside
 export const Route = createFileRoute("/applications/")({
   beforeLoad: requirePrivilege("STUDENT"),
   component: ApplicationsPage,
@@ -22,12 +23,16 @@ function ApplicationsPage() {
   const [searchText, setSearchText] = useState("");
   const [statusFilter, setStatusFilter] = useState<string | undefined>();
   const navigate = useNavigate();
+  const currentUser = getCurrentUser();
+  const userRole = currentUser.privilege;
 
-  // TODO: Fetch from API
-  const applications = [
+  // Mock Data
+  let allApplications = [
     {
       id: "1",
       studentName: "John Doe",
+      email: "john@example.com",
+      agentId: "agent1",
       course: "GNM",
       academicYear: "2024-25",
       status: "SUBMITTED",
@@ -36,12 +41,44 @@ function ApplicationsPage() {
     {
       id: "2",
       studentName: "Jane Smith",
+      email: "jane@example.com",
+      agentId: "agent2",
       course: "ANM",
       academicYear: "2024-25",
       status: "VERIFIED",
       createdAt: "2024-01-09",
     },
+    {
+      id: "3",
+      studentName: "Admin User", // Simulating current user as student
+      email: "admin@example.com",
+      agentId: "agent1",
+      course: "BSC",
+      academicYear: "2024-25",
+      status: "DRAFT",
+      createdAt: "2024-01-11",
+    },
   ];
+
+  // Role-Based Filtering
+  let visibleApplications = allApplications;
+
+  if (userRole === "STUDENT") {
+    // Filter by User Email (mocking 'own' application)
+    visibleApplications = allApplications.filter(app => app.email === currentUser.email);
+  } else if (userRole === "AGENT") {
+    // Filter by Agent ID (mock) - assuming current user is 'agent1'
+    visibleApplications = allApplications.filter(app => app.agentId === "agent1");
+  }
+  // COLLEGE and ADMIN see everything
+
+  // Client-side text/status filtering
+  const filteredApplications = visibleApplications.filter(app => {
+    const matchesSearch = app.studentName.toLowerCase().includes(searchText.toLowerCase()) ||
+      app.course.toLowerCase().includes(searchText.toLowerCase());
+    const matchesStatus = statusFilter ? app.status === statusFilter : true;
+    return matchesSearch && matchesStatus;
+  });
 
   const columns = [
     {
@@ -87,6 +124,8 @@ function ApplicationsPage() {
     },
   ];
 
+  const canCreateApplication = ["COLLEGE", "ADMIN", "AGENT"].includes(userRole);
+
   return (
     <div>
       <HelpPanel context="applications" />
@@ -99,10 +138,14 @@ function ApplicationsPage() {
           marginBottom: 16,
         }}
       >
-        <h1 style={{ margin: 0 }}>Applications</h1>
-        <Button type="primary" icon={<MdAdd />} onClick={() => navigate({ to: "/applications/new" })}>
-          New Application
-        </Button>
+        <h1 style={{ margin: 0 }}>
+          {userRole === "STUDENT" ? "My Application" : "Applications"}
+        </h1>
+        {canCreateApplication && (
+          <Button type="primary" icon={<MdAdd />} onClick={() => navigate({ to: "/applications/new" })}>
+            New Application
+          </Button>
+        )}
       </div>
 
       <Space style={{ marginBottom: 16 }}>
@@ -130,7 +173,7 @@ function ApplicationsPage() {
 
       <Table
         columns={columns}
-        dataSource={applications}
+        dataSource={filteredApplications}
         rowKey="id"
         pagination={{
           pageSize: 10,

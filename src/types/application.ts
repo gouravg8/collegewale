@@ -28,6 +28,17 @@ export interface Application {
     academicYear: string;
     status: ApplicationStatus;
     documents: ApplicationDocument[];
+    fees: {
+        totalAmount: number;
+        paidAmount: number;
+        currency: string;
+        status: "PENDING" | "PARTIAL" | "PAID";
+        history: {
+            amount: number;
+            date: string;
+            transactionId?: string;
+        }[];
+    };
     timeline: {
         status: ApplicationStatus;
         timestamp: string;

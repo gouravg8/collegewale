@@ -1,12 +1,13 @@
 import { getCurrentUser, requirePrivilege } from "@/config/auth-utils";
+import { RoleType } from "@/config/roles";
 import type { Application, ApplicationStatus } from "@/types/application";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Alert, Button, Card, Descriptions, message, Modal, Tag, Timeline, Upload } from "antd";
+import { Alert, Button, Card, Descriptions, Divider, message, Modal, Statistic, Tag, Timeline, Upload } from "antd";
 import { useState } from "react";
-import { MdArrowBack, MdDescription, MdHistory, MdPerson, MdUpload } from "react-icons/md";
+import { MdArrowBack, MdAttachMoney, MdDescription, MdHistory, MdPerson, MdUpload } from "react-icons/md";
 
 export const Route = createFileRoute("/applications/$applicationId")({
-  beforeLoad: requirePrivilege("STUDENT"), // Both Student and College can access
+  beforeLoad: requirePrivilege("STUDENT"),
   component: ApplicationDetailPage,
 });
 
@@ -22,7 +23,11 @@ function ApplicationDetailPage() {
   const navigate = useNavigate();
   const { applicationId } = Route.useParams();
   const currentUser = getCurrentUser();
-  const isCollege = currentUser.privilege === "COLLEGE" || currentUser.privilege === "ADMIN";
+  const userRole = currentUser.privilege as RoleType;
+
+  const isCollegeOrAdmin = ["COLLEGE", "ADMIN"].includes(userRole);
+  const isStudent = userRole === "STUDENT";
+  // Agent has limited view logic if needed
 
   // Mock Data - In real app, fetch by ID
   const [application, setApplication] = useState<Application>({
@@ -44,6 +49,15 @@ function ApplicationDetailPage() {
       { id: "doc2", name: "12th Marksheet", type: "MARKSHEET_12", status: "UPLOADED", url: "https://example.com/doc.pdf" },
       { id: "doc3", name: "Aadhar Card", type: "AADHAR", status: "VERIFIED", url: "https://example.com/aadhar.pdf" },
     ],
+    fees: {
+      totalAmount: 150000,
+      paidAmount: 50000,
+      currency: "INR",
+      status: "PARTIAL",
+      history: [
+        { amount: 50000, date: "2024-01-05", transactionId: "TXN123456" }
+      ]
+    },
     timeline: [
       { status: "DRAFT", timestamp: "2024-01-01", updatedBy: "System" },
       { status: "SUBMITTED", timestamp: "2024-01-02", updatedBy: "Agent" },
@@ -64,7 +78,8 @@ function ApplicationDetailPage() {
   };
 
   const getNextActions = () => {
-    if (!isCollege) return null;
+    // Only College/Admin can change status
+    if (!isCollegeOrAdmin) return null;
 
     switch (application.status) {
       case "DRAFT":
@@ -117,10 +132,32 @@ function ApplicationDetailPage() {
               <Descriptions.Item label="Gender">{application.student.gender}</Descriptions.Item>
               <Descriptions.Item label="Date of Birth">{application.student.dob}</Descriptions.Item>
             </Descriptions>
+
+            <Divider />
+
+            <Descriptions column={2} size="small">
+              <Descriptions.Item label="Course">{application.course}</Descriptions.Item>
+              <Descriptions.Item label="Academic Year">{application.academicYear}</Descriptions.Item>
+            </Descriptions>
+          </Card>
+
+          {/* Fees Section - Visible to all Roles involved */}
+          <Card title={<span className="flex items-center gap-2"><MdAttachMoney /> Fees Overview</span>} className="shadow-sm">
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div>
+                <Statistic title="Total Fees" value={application.fees.totalAmount} prefix="₹" />
+              </div>
+              <div>
+                <Statistic title="Paid" value={application.fees.paidAmount} prefix="₹" valueStyle={{ color: '#3f8600' }} />
+              </div>
+              <div>
+                <Statistic title="Due" value={application.fees.totalAmount - application.fees.paidAmount} prefix="₹" valueStyle={{ color: '#cf1322' }} />
+              </div>
+            </div>
           </Card>
 
           <Card title={<span className="flex items-center gap-2"><MdDescription /> Documents</span>} className="shadow-sm">
-            {!isCollege && application.status !== "ADMITTED" && (
+            {!isCollegeOrAdmin && application.status !== "ADMITTED" && (
               <Alert message="Only college staff can upload documents. Please contact administration for corrections." type="info" showIcon className="mb-4" />
             )}
 
@@ -140,7 +177,7 @@ function ApplicationDetailPage() {
                   <div className="flex items-center gap-2">
                     {doc.url && <Button size="small" type="link" href={doc.url} target="_blank">View</Button>}
 
-                    {isCollege && application.status !== "ADMITTED" && (
+                    {isCollegeOrAdmin && application.status !== "ADMITTED" && (
                       <Upload showUploadList={false}>
                         <Button size="small" icon={<MdUpload />}>Upload</Button>
                       </Upload>
